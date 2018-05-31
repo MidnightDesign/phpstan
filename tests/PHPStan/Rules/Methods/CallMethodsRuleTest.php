@@ -284,6 +284,30 @@ class CallMethodsRuleTest extends \PHPStan\Testing\RuleTestCase
 				'Cannot call method bar() on string.',
 				748,
 			],
+			[
+				'Parameter #1 $std of method Test\CheckDefaultArrayKeys::doAmet() expects stdClass, (int|string) given.',
+				791,
+			],
+			[
+				'Parameter #1 $i of method Test\CheckDefaultArrayKeys::doBar() expects int, (int|string)|stdClass given.',
+				797,
+			],
+			[
+				'Parameter #1 $str of method Test\CheckDefaultArrayKeys::doBaz() expects string, (int|string)|stdClass given.',
+				798,
+			],
+			[
+				'Parameter #1 $intOrString of method Test\CheckDefaultArrayKeys::doLorem() expects int|string, (int|string)|stdClass given.',
+				799,
+			],
+			[
+				'Parameter #1 $dateOrString of method Test\CheckDefaultArrayKeys::doSit() expects DateTimeImmutable|string, (int|string)|stdClass given.',
+				802,
+			],
+			[
+				'Parameter #1 $std of method Test\CheckDefaultArrayKeys::doAmet() expects stdClass, (int|string)|stdClass given.',
+				803,
+			],
 		]);
 	}
 
@@ -440,6 +464,30 @@ class CallMethodsRuleTest extends \PHPStan\Testing\RuleTestCase
 			[
 				'Parameter #2 $str of method Test\PreIncString::doFoo() expects string, int given.',
 				725,
+			],
+			[
+				'Parameter #1 $std of method Test\CheckDefaultArrayKeys::doAmet() expects stdClass, (int|string) given.',
+				791,
+			],
+			[
+				'Parameter #1 $i of method Test\CheckDefaultArrayKeys::doBar() expects int, (int|string)|stdClass given.',
+				797,
+			],
+			[
+				'Parameter #1 $str of method Test\CheckDefaultArrayKeys::doBaz() expects string, (int|string)|stdClass given.',
+				798,
+			],
+			[
+				'Parameter #1 $intOrString of method Test\CheckDefaultArrayKeys::doLorem() expects int|string, (int|string)|stdClass given.',
+				799,
+			],
+			[
+				'Parameter #1 $dateOrString of method Test\CheckDefaultArrayKeys::doSit() expects DateTimeImmutable|string, (int|string)|stdClass given.',
+				802,
+			],
+			[
+				'Parameter #1 $std of method Test\CheckDefaultArrayKeys::doAmet() expects stdClass, (int|string)|stdClass given.',
+				803,
 			],
 		]);
 	}

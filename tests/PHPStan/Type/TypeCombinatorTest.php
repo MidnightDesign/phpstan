@@ -736,6 +736,54 @@ class TypeCombinatorTest extends \PHPStan\Testing\TestCase
 				ArrayType::class,
 				'array<string>',
 			],
+			[
+				[
+					new UnionType([new IntegerType(), new StringType()]),
+					new DefaultArrayKeyType(),
+				],
+				UnionType::class,
+				'int|string',
+			],
+			[
+				[
+					new IntegerType(),
+					new DefaultArrayKeyType(),
+				],
+				DefaultArrayKeyType::class,
+				'(int|string)',
+			],
+			[
+				[
+					new StringType(),
+					new DefaultArrayKeyType(),
+				],
+				DefaultArrayKeyType::class,
+				'(int|string)',
+			],
+			[
+				[
+					new UnionType([new IntegerType(), new StringType(), new FloatType()]),
+					new DefaultArrayKeyType(),
+				],
+				UnionType::class,
+				'float|int|string',
+			],
+			[
+				[
+					new UnionType([new StringType(), new FloatType()]),
+					new DefaultArrayKeyType(),
+				],
+				UnionType::class,
+				'(int|string)|float',
+			],
+			[
+				[
+					new UnionType([new IntegerType(), new FloatType()]),
+					new DefaultArrayKeyType(),
+				],
+				UnionType::class,
+				'(int|string)|float',
+			],
 		];
 	}
 
@@ -902,6 +950,46 @@ class TypeCombinatorTest extends \PHPStan\Testing\TestCase
 				],
 				IterableType::class,
 				'iterable',
+			],
+			[
+				[
+					new IntegerType(),
+					new DefaultArrayKeyType(),
+				],
+				IntegerType::class,
+				'int',
+			],
+			[
+				[
+					new ConstantIntegerType(1),
+					new DefaultArrayKeyType(),
+				],
+				ConstantIntegerType::class,
+				'1',
+			],
+			[
+				[
+					new ConstantStringType('foo'),
+					new DefaultArrayKeyType(),
+				],
+				ConstantStringType::class,
+				'\'foo\'',
+			],
+			[
+				[
+					new StringType(),
+					new DefaultArrayKeyType(),
+				],
+				StringType::class,
+				'string',
+			],
+			[
+				[
+					new UnionType([new StringType(), new IntegerType()]),
+					new DefaultArrayKeyType(),
+				],
+				UnionType::class,
+				'int|string',
 			],
 		];
 	}
@@ -1089,6 +1177,36 @@ class TypeCombinatorTest extends \PHPStan\Testing\TestCase
 				new ObjectType(\Traversable::class),
 				ArrayType::class,
 				'array',
+			],
+			[
+				new DefaultArrayKeyType(),
+				new StringType(),
+				IntegerType::class,
+				'int',
+			],
+			[
+				new DefaultArrayKeyType(),
+				new IntegerType(),
+				StringType::class,
+				'string',
+			],
+			[
+				new DefaultArrayKeyType(),
+				new ConstantStringType('foo'),
+				DefaultArrayKeyType::class,
+				'(int|string)',
+			],
+			[
+				new DefaultArrayKeyType(),
+				new ConstantIntegerType(1),
+				DefaultArrayKeyType::class,
+				'(int|string)',
+			],
+			[
+				new DefaultArrayKeyType(),
+				new UnionType([new IntegerType(), new StringType()]),
+				NeverType::class,
+				'*NEVER*'
 			],
 		];
 	}

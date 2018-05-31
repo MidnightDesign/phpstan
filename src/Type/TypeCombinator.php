@@ -3,6 +3,8 @@
 namespace PHPStan\Type;
 
 use PHPStan\Type\Constant\ConstantBooleanType;
+use PHPStan\Type\Constant\ConstantIntegerType;
+use PHPStan\Type\Constant\ConstantStringType;
 
 class TypeCombinator
 {
@@ -43,6 +45,11 @@ class TypeCombinator
 			if ($traversableType->isSuperTypeOf($typeToRemove)->yes()) {
 				return $arrayType;
 			}
+		} elseif ($fromType instanceof DefaultArrayKeyType) {
+			if ($typeToRemove instanceof ConstantIntegerType || $typeToRemove instanceof ConstantStringType) {
+				return $fromType;
+			}
+			return self::remove($fromType->getUnionType(), $typeToRemove);
 		}
 
 		if ($typeToRemove->isSuperTypeOf($fromType)->yes()) {
@@ -74,6 +81,9 @@ class TypeCombinator
 
 	public static function union(Type ...$types): Type
 	{
+		//var_dump(implode(', ', array_map(function (Type $type): string {
+		//	return $type->describe(VerbosityLevel::value());
+		//}, $types)));
 		// transform A | (B | C) to A | B | C
 		for ($i = 0; $i < count($types); $i++) {
 			if (!($types[$i] instanceof UnionType)) {
